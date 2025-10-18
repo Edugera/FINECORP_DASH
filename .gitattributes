@@ -1,2 +1,16 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+* text=auto eol=lf
+*.bat eol=crlf
+*.ps1 eol=crlf
+*.cmd eol=crlf
+*.sh eol=lf
+
+# Tratar PBIX e binários
+*.pbix binary
+*.pbit binary
+*.zip binary
+*.xlsx binary
+*.xlsm binary
+*.pdf binary

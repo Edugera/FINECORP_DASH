@@ -1,0 +1,26 @@
+# Power BI / dados
+*.pbix
+*.pbix.lock
+*.pbit
+*.rdl
+*.pbids
+*.bim
+# Dados brutos/temporários
+/data/raw/
+/data/tmp/
+/data/cache/
+/data/private/
+/outputs/
+# Office / SO
+~$*
+*.tmp
+*.bak
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+# Python/R (se usar)
+__pycache__/
+.ipynb_checkpoints/
+.Rhistory
+.Rproj.user/
