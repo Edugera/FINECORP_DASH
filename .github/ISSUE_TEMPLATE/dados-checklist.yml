@@ -1,0 +1,27 @@
+name: Checklist de Dados (cliente)
+description: Conferência do Template e campos mínimos
+labels: ["dados","template"]
+body:
+  - type: input
+    id: cliente
+    attributes: { label: Cliente, placeholder: "Ex.: Finecorp – Unidade SP" }
+    validations: { required: true }
+  - type: input
+    id: periodo
+    attributes: { label: Período (MM/AAAA), placeholder: "10/2025" }
+    validations: { required: true }
+  - type: checkboxes
+    id: campos
+    attributes:
+      label: Campos mínimos
+      options:
+        - label: Datas (emissão, vencimento, pagamento/recebimento)
+        - label: Valor (decimal)
+        - label: Conta/Plano
+        - label: Centro de Custo / Departamento
+        - label: Cliente/Fornecedor (nome/ID)
+        - label: Status (pago/aberto/vencido)
+        - label: Orçado mês a mês (se houver)
+  - type: textarea
+    id: obs
+    attributes: { label: Observações, placeholder: "Inconsistências, ajustes necessários..." }

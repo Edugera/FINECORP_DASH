@@ -1,0 +1,21 @@
+name: Tarefa
+description: Task simples (Kanban)
+labels: ["tarefa"]
+body:
+  - type: input
+    id: titulo
+    attributes: { label: Título curto da tarefa }
+    validations: { required: true }
+  - type: textarea
+    id: passos
+    attributes: { label: Passos, placeholder: "- [ ] passo 1\n- [ ] passo 2" }
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options: ["ETL","Modelo","DAX","Docs","Publicação"]
+  - type: dropdown
+    id: prioridade
+    attributes:
+      label: Prioridade
+      options: ["Alta","Média","Baixa"]

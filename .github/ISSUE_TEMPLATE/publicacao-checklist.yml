@@ -1,0 +1,22 @@
+name: Checklist de Publicação
+description: Validação para publicar/entregar
+labels: ["publicacao","qa"]
+body:
+  - type: input
+    id: periodo
+    attributes: { label: Período (MM/AAAA) }
+    validations: { required: true }
+  - type: checkboxes
+    id: validacoes
+    attributes:
+      label: Itens de validação
+      options:
+        - label: Medidas válidas (sem BLANK/erro)
+        - label: Navegação OK (botões, nomes de páginas)
+        - label: Tooltips funcionando
+        - label: RLS aplicada e testada (se houver)
+        - label: Refresh agendado OK
+        - label: PDF mensal testado (layout + filtros)
+  - type: textarea
+    id: evidencias
+    attributes: { label: Evidências/links, placeholder: "coloque prints ou URLs" }
