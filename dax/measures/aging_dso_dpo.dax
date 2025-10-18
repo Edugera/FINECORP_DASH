@@ -1,0 +1,33 @@
+﻿-- Aging por vencimento (CR/AP)
+Dias Atraso :=
+DATEDIFF ( MAX ( FatoMovimento[Data_Vencimento] ), TODAY (), DAY )
+
+Aging Faixa :=
+VAR d = [Dias Atraso]
+RETURN
+SWITCH (
+    TRUE(),
+    ISBLANK ( MAX ( FatoMovimento[Data_Vencimento] ) ), BLANK(),
+    d < 0, "A Vencer",
+    d <= 30, "0–30",
+    d <= 60, "31–60",
+    d <= 90, "61–90",
+    "90+"
+)
+
+-- DSO = média de dias entre emissão/competência e pagamento para receitas (pagas)
+DSO :=
+AVERAGEX (
+    FILTER ( FatoMovimento, FatoMovimento[Tipo] = "Receita" && FatoMovimento[Status] = "Pago" ),
+    DATEDIFF ( FatoMovimento[Data_Competencia], FatoMovimento[Data_Caixa], DAY )
+)
+
+-- DPO = média de dias entre competência e pagamento para custos/despesas (pagas)
+DPO :=
+AVERAGEX (
+    FILTER ( FatoMovimento, FatoMovimento[Tipo] <> "Receita" && FatoMovimento[Status] = "Pago" ),
+    DATEDIFF ( FatoMovimento[Data_Competencia], FatoMovimento[Data_Caixa], DAY )
+)
+
+Ciclo Financeiro :=
+[DSO] - [DPO]   -- (+ DWIP se houver WIP/estoque em dias)

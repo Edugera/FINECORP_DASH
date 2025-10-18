@@ -1,0 +1,46 @@
+﻿-- Tabelas referenciadas: FatoMovimento, Dim_Calendario
+
+Receita :=
+SUMX ( FILTER ( FatoMovimento, FatoMovimento[Tipo] = "Receita" ), FatoMovimento[Valor] )
+
+Custo :=
+SUMX ( FILTER ( FatoMovimento, FatoMovimento[Tipo] = "Custo" ), FatoMovimento[Valor] )
+
+Despesa :=
+SUMX ( FILTER ( FatoMovimento, FatoMovimento[Tipo] = "Despesa" ), FatoMovimento[Valor] )
+
+Lucro := [Receita] - [Custo] - [Despesa]
+
+Margem % :=
+DIVIDE ( [Lucro], [Receita] )
+
+-- Caixa (por Data_Caixa)
+Entradas Pagas :=
+CALCULATE ( [Receita], USERELATIONSHIP ( FatoMovimento[Data_Caixa], Dim_Calendario[Data] ) )
+
+Saidas Pagas :=
+CALCULATE ( [Custo] + [Despesa], USERELATIONSHIP ( FatoMovimento[Data_Caixa], Dim_Calendario[Data] ) )
+
+Fluxo Líquido :=
+[Entradas Pagas] - [Saidas Pagas]
+
+Saldo Acumulado :=
+CALCULATE ( [Fluxo Líquido], FILTER ( ALL ( Dim_Calendario[Data] ), Dim_Calendario[Data] <= MAX ( Dim_Calendario[Data] ) ) )
+
+-- Time intelligence (competência)
+Receita MTD := TOTALMTD ( [Receita], Dim_Calendario[Data] )
+Receita YTD := TOTALYTD ( [Receita], Dim_Calendario[Data] )
+Receita YoY := CALCULATE ( [Receita], DATEADD ( Dim_Calendario[Data], -1, YEAR ) )
+
+-- Burn (média 3/6 meses de saídas pagas)
+Burn 3m :=
+AVERAGEX (
+    DATESINPERIOD ( Dim_Calendario[Data], MAX ( Dim_Calendario[Data] ), -3, MONTH ),
+    [Saidas Pagas]
+)
+
+Burn 6m :=
+AVERAGEX (
+    DATESINPERIOD ( Dim_Calendario[Data], MAX ( Dim_Calendario[Data] ), -6, MONTH ),
+    [Saidas Pagas]
+)

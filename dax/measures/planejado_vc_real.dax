@@ -1,0 +1,9 @@
+﻿-- Chave: AnoMes (YYYYMM) ou Data (mês). Ajuste junção conforme seu modelo.
+Orcado :=
+SUM ( FatoOrcado[Valor_Orcado] )
+
+Real :=
+[Receita] - [Custo] - [Despesa]  -- ou Lucro, conforme o KPI
+
+Var R$ := [Real] - [Orcado]
+Var % := DIVIDE ( [Var R$], [Orcado] )
